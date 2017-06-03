@@ -43,7 +43,7 @@
     <Compile Include="Events\PowerPointChartInterceptedEventArgs.cs" />
     <Compile Include="Events\PowerPointTableInterceptedEventArgs.cs" />
     <Compile Include="Events\PowerPointTextFrameInterceptedEventArgs.cs" />
-    <Compile Include="PowerPointReportBuilder.cs" />
+    <Compile Include="PowerPointReportModifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

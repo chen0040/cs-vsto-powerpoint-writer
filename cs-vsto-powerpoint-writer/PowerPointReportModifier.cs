@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
 using Office = Microsoft.Office.Core;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 using Excel = Microsoft.Office.Interop.Excel;
-using System.Reflection;
+using PowerPointWriter.Events;
 
 namespace PowerPointWriter
 {
-    public class PowerPointReportBuilder
+    public class PowerPointReportModifier
     {
-        public void Build(string inputFileName, string outputFileName)
+        public void Apply(string inputFileName, string outputFileName)
         {
             PowerPoint.Application ppApp = new PowerPoint.Application();
 
@@ -98,28 +94,19 @@ namespace PowerPointWriter
         public event EventHandler<PowerPointTextFrameInterceptedEventArgs> TextFrameIntercepted;
         private void Intercept(PowerPoint.Presentation ppt, PowerPoint.TextFrame textFrame, PowerPoint.TextRange textRange, PowerPoint.TextRange paragraph)
         {
-            if (TextFrameIntercepted != null)
-            {
-                TextFrameIntercepted(ppt, new PowerPointTextFrameInterceptedEventArgs(textFrame, textRange, paragraph));
-            }
+            TextFrameIntercepted?.Invoke(ppt, new PowerPointTextFrameInterceptedEventArgs(textFrame, textRange, paragraph));
         }
 
         public event EventHandler<PowerPointChartInterceptedEventArgs> ChartIntercepted;
         private void Intercept(PowerPoint.Presentation ppt, PowerPoint.Chart chart, Excel.Worksheet worksheet, string title)
         {
-            if (ChartIntercepted != null)
-            {
-                ChartIntercepted(ppt, new PowerPointChartInterceptedEventArgs(chart, worksheet, title));
-            }
+            ChartIntercepted?.Invoke(ppt, new PowerPointChartInterceptedEventArgs(chart, worksheet, title));
         }
 
         public event EventHandler<PowerPointTableInterceptedEventArgs> TableIntercepted;
         private void Intercept(PowerPoint.Presentation ppt, PowerPoint.Table table)
         {
-            if (TableIntercepted != null)
-            {
-                TableIntercepted(ppt, new PowerPointTableInterceptedEventArgs(table));
-            }
+            TableIntercepted?.Invoke(ppt, new PowerPointTableInterceptedEventArgs(table));
         }
 
         

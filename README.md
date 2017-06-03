@@ -23,9 +23,31 @@ https://social.msdn.microsoft.com/Forums/vstudio/en-US/08f13e9d-895c-4102-b6d9-e
 
 # Usage
 
-Below is the C# sample code for creating a sample report:
+Below is the C# sample code for modifying the input.ppt and producing the output.ppt:
 
 ```cs 
+PowerPointReportModifier builder = new PowerPointReportModifier();
+builder.ChartIntercepted += (sender, e) =>
+{
+	string title = e.Title;
+	PowerPoint.Chart chart = e.Chart;
+	Worksheet sheet = e.Worksheet;
 
+	// code to modify the chart here
+};
+builder.TableIntercepted += (sender, e) =>
+{
+	PowerPoint.Table table = e.Table;
+
+	// code to modify the table here
+};
+builder.TextFrameIntercepted += (sender, e) =>
+{
+	PowerPoint.TextRange paragraph = e.Paragraph;
+	
+	// code to modify the paragraph here
+};
+
+builder.Apply("input.ppt", "output.ppt");
 ```
 
